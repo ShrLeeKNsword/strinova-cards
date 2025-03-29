@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import './App.css';
-import { Modal, Typography, Button, Col, Row, Input, ColorPicker, TextArea } from '@douyinfe/semi-ui';
+import { Modal, Typography, Button, Col, Row, Input, ColorPicker, TextArea, Select, Tag } from '@douyinfe/semi-ui';
 import * as htmlToImage from 'html-to-image';
 
 const { Title } = Typography;
@@ -10,9 +10,12 @@ function App() {
     type: "SPECIAL",
     title: "我要竞技了",
     titleC: ColorPicker.colorStringToValue("#f1dd97"),
+    titleSize: "45px",
     imglink: 'https://cdn.sa.net/2025/03/29/qUySEmBafkXF2jP.png',
     discribe: "每秒受到护甲与生命之和2%的伤害，增加2%伤害",
-    discribeBGC: ColorPicker.colorStringToValue("#f4a460")
+    discribeBGC: ColorPicker.colorStringToValue("#f4a460"),
+    discribeSize: "30px",
+
   });
   const [tempCardData, setTempCardData] = useState(cardData);
 
@@ -47,7 +50,7 @@ function App() {
 
   return (
     <>
-      <Title>卡丘卡牌生成器</Title>
+      <Title>卡丘卡牌生成器</Title><Tag size="large" color='amber'> V0.1 </Tag><Tag size="large" color='cyan' style={{marginLeft:"8px"}}> 2025.3.29 Ver </Tag>
 
       <div id="capture" style={{ width: "400px", height: "620px", backgroundColor: "grey", marginTop: "20px", position: "relative", overflow: "hidden" }}>
         <div style={{ width: "100%", backgroundColor: "#8b8b8f" }}>
@@ -72,12 +75,12 @@ function App() {
         </div>
         <div style={{ width: "100%", height: "40px", backgroundColor: "black", overflow: "visible" }}>
           <div style={{
-            color: cardData.titleC.hex, fontSize: "45px", transform: "translateY(-18px)",
+            color: cardData.titleC.hex, fontSize: cardData.titleSize, transform: "translateY(-18px)",
             textShadow: "2px 2px 5px black, -2px -2px 5px black, 2px -2px 5px black, -2px 2px 5px black",
           }}>{cardData.title}</div>
         </div>
         <div style={{ width: "100%", height: "200px", backgroundColor: cardData.discribeBGC.hex, display: "flex", alignItems: "center" }}>
-          <div style={{ width: "100%", color: "white", textShadow: "0px 0px 5px black", fontSize: "30px", margin: "0 auto", marginLeft: "20px", marginRight: "20px", textAlign: "center" }}>
+          <div style={{ width: "100%", color: "white", textShadow: "0px 0px 5px black", fontSize: cardData.discribeSize, margin: "0 auto", marginLeft: "20px", marginRight: "20px", textAlign: "center" }}>
             {cardData.discribe}</div>
         </div>
       </div>
@@ -104,7 +107,9 @@ function App() {
         >
           保存图片</Button>
         <Button theme='solid' style={{ margin: "5px" }} onClick={showDialog}>修改属性</Button>
-        <Button theme='solid' style={{ margin: "5px" }} onClick={()=>{open("https://space.bilibili.com/403314450","_blank")}}>作者B站</Button>
+        <Button theme='solid' style={{ margin: "5px" }} onClick={() => { open("https://space.bilibili.com/403314450", "_blank") }}>作者B站</Button>
+
+        <div>本项目遵循MIT开源 <a href='https://github.com/ShrLeeKNsword/strinova-cards'>Github仓库</a></div>
 
         <Modal
           title="修改属性"
@@ -131,6 +136,20 @@ function App() {
               }}></Input></Col>
           </Row>
           <Row style={{ marginTop: "8px" }}>
+            <Col span={6} style={{ marginTop: "3px" }}>名称字号</Col>
+            <Col span={18}>
+              <Select style={{ width: 120 }}
+                value={tempCardData.titleSize}
+                onChange={(e: any) => {
+                  setTempCardData({ ...tempCardData, titleSize: e });
+                }}>
+                <Select.Option value="45px">标准</Select.Option>
+                <Select.Option value="35px">中号</Select.Option>
+                <Select.Option value="30px">小号</Select.Option>
+              </Select>
+            </Col>
+          </Row>
+          <Row style={{ marginTop: "8px" }}>
             <Col span={6} style={{ marginTop: "3px" }}>字体颜色</Col>
             <Col span={18}><ColorPicker
               value={tempCardData.titleC}
@@ -143,10 +162,24 @@ function App() {
           </Row>
           <Row style={{ marginTop: "8px" }}>
             <Col span={6} style={{ marginTop: "3px" }}>描述</Col>
-            <Col span={18}><TextArea maxCount={44} value={tempCardData.discribe} autosize={{ minRows: 1, maxRows: 3 }}
+            <Col span={18}><TextArea maxCount={75} value={tempCardData.discribe} autosize={{ minRows: 1, maxRows: 4 }}
               onChange={(e) => {
                 setTempCardData({ ...tempCardData, discribe: e });
               }}></TextArea></Col>
+          </Row>
+          <Row style={{ marginTop: "8px" }}>
+            <Col span={6} style={{ marginTop: "3px" }}>描述字号</Col>
+            <Col span={18}>
+              <Select style={{ width: 120 }}
+                value={tempCardData.discribeSize}
+                onChange={(e: any) => {
+                  setTempCardData({ ...tempCardData, discribeSize: e });
+                }}>
+                <Select.Option value="30px">标准</Select.Option>
+                <Select.Option value="28px">中号</Select.Option>
+                <Select.Option value="25px">小号</Select.Option>
+              </Select>
+            </Col>
           </Row>
           <Row style={{ marginTop: "8px" }}>
             <Col span={6} style={{ marginTop: "3px" }}>描述背景颜色</Col>
@@ -169,7 +202,7 @@ function App() {
                   }
                 }}
 
-              ><img src={tempCardData.imglink} /></button>
+              ><img src={tempCardData.imglink} style={{ width: "180px", height: "180px" }} /></button>
               <input
                 type="file"
                 accept="image/*"
