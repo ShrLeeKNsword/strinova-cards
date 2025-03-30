@@ -1,8 +1,22 @@
 import { useState, useRef } from 'react';
 import './App.css';
-import { Modal, Typography, Button, Col, Row, Input, ColorPicker, TextArea, Select, Tag } from '@douyinfe/semi-ui';
+import {
+  Modal,
+  Typography,
+  Button,
+  Col,
+  Row,
+  Input,
+  ColorPicker,
+  TextArea,
+  Select,
+  Tag,
+  Slider,
+  InputNumber,
+} from '@douyinfe/semi-ui';
 import * as htmlToImage from 'html-to-image';
 import RankStars from './components/rank';
+import PreImg from './components/preImg';
 
 const { Title } = Typography;
 
@@ -16,8 +30,11 @@ function App() {
     discribe: "每秒受到护甲与生命之和2%的伤害，增加2%伤害",
     discribeBGC: ColorPicker.colorStringToValue("#f4a460"),
     discribeSize: "30px",
-    rank:1,
-    rankMax:0,
+    rank: 1,
+    rankMax: 0,
+    imgHeight: 50,
+    imgPosX: 0,
+    imgPosY: 0,
 
   });
   const [tempCardData, setTempCardData] = useState(cardData);
@@ -53,8 +70,10 @@ function App() {
 
   return (
     <>
-      <Title style={{color:"rgba(var(--semi-grey-9), 1)"}}>卡丘卡牌生成器</Title><Tag size="large" color='amber'> V0.2 </Tag><Tag size="large" color='cyan' style={{marginLeft:"8px"}}> 2025.3.30 Ver </Tag>
-      <div style={{width:"100%",height:"15px"}}></div>
+      <Title style={{ color: "rgba(var(--semi-grey-9), 1)" }}>卡丘卡牌生成器</Title>
+      <Tag size="large" color='amber'> V0.3 </Tag>
+      <Tag size="large" color='cyan' style={{ marginLeft: "8px" }}> 2025.3.30 Ver </Tag>
+      <div style={{ width: "100%", height: "15px" }}></div>
 
       <div id="capture" style={{ width: "400px", height: "620px", backgroundColor: "grey", position: "relative", overflow: "hidden" }}>
         <div style={{ width: "100%", backgroundColor: "#8b8b8f" }}>
@@ -68,14 +87,14 @@ function App() {
           <img
             src={cardData.imglink}
             style={{
-              height: "800px",
+              height: `800px`,
               position: "absolute",
               top: "-180px",
               left: "-220px",
               filter: "grayscale(100%) opacity(0.1)",
             }}
           />
-          <img src={cardData.imglink} style={{ height: "380px", transform: "translateY(-40px)" }}></img>
+          <img src={cardData.imglink} style={{ height: `${cardData.imgHeight * 7.6}px`, transform: `translateY(${cardData.imgPosY - 40}px) translateX(${cardData.imgPosX}px)` }}></img>
         </div>
         <div style={{ width: "100%", height: "40px", backgroundColor: "black", overflow: "visible" }}>
           <div style={{
@@ -87,7 +106,7 @@ function App() {
           <div style={{ width: "100%", color: "white", textShadow: "0px 0px 5px black", fontSize: cardData.discribeSize, margin: "0 auto", marginLeft: "20px", marginRight: "20px", textAlign: "center" }}>
             {cardData.discribe}</div>
         </div>
-        <RankStars rank={cardData.rank} rankMax={cardData.rankMax}/>
+        <RankStars rank={cardData.rank} rankMax={cardData.rankMax} />
       </div>
 
       <div style={{ marginTop: "20px" }}>
@@ -114,7 +133,7 @@ function App() {
         <Button theme='solid' style={{ margin: "5px" }} onClick={showDialog}>修改属性</Button>
         <Button theme='solid' style={{ margin: "5px" }} onClick={() => { open("https://space.bilibili.com/403314450", "_blank") }}>作者B站</Button>
 
-        <div style={{color:"rgba(var(--semi-grey-9), 1)"}}>本项目遵循MIT开源 <a href='https://github.com/ShrLeeKNsword/strinova-cards'>Github仓库</a></div>
+        <div style={{ color: "rgba(var(--semi-grey-9), 1)" }}>本项目遵循MIT开源 <a href='https://github.com/ShrLeeKNsword/strinova-cards'>Github仓库</a></div>
 
         <Modal
           title="修改属性"
@@ -241,7 +260,6 @@ function App() {
                     fileInputRef.current.click(); // 触发文件输入元素的点击事件
                   }
                 }}
-
               ><img src={tempCardData.imglink} style={{ width: "180px", height: "180px" }} /></button>
               <input
                 type="file"
@@ -250,7 +268,32 @@ function App() {
                 onChange={handleFileChange}
                 style={{ display: 'none' }} // 隐藏文件输入元素
               />
+              <div></div>
+              <PreImg onFinish={(e: any) => { setTempCardData({ ...tempCardData, imglink: e })}} />
             </Col>
+          </Row>
+          <Row style={{ marginTop: "8px" }}>
+            <Col span={6} style={{ marginTop: "3px" }}>图像缩放</Col>
+            <Col span={18}>
+              <Slider tipFormatter={v => (`${v}%`)} value={tempCardData.imgHeight} getAriaValueText={v => (`${v}%`)}
+                onChange={(e: any) => {
+                  setTempCardData({ ...tempCardData, imgHeight: e });
+                }}></Slider>
+            </Col>
+          </Row>
+          <Row style={{ marginTop: "8px" }}>
+            <Col span={6} style={{ marginTop: "6px" }}>图像偏移</Col>
+            <Col span={2} style={{ marginTop: "6px" }}>X</Col>
+            <Col span={6}><InputNumber value={tempCardData.imgPosX}
+              onChange={(e: any) => {
+                setTempCardData({ ...tempCardData, imgPosX: e });
+              }}></InputNumber></Col>
+            <Col span={1} style={{ marginTop: "6px" }}></Col>
+            <Col span={2} style={{ marginTop: "6px" }}>Y</Col>
+            <Col span={6}><InputNumber value={tempCardData.imgPosY}
+              onChange={(e: any) => {
+                setTempCardData({ ...tempCardData, imgPosY: e });
+              }}></InputNumber></Col>
           </Row>
         </Modal>
       </div>
