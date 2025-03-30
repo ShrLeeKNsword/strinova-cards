@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import './App.css';
 import { Modal, Typography, Button, Col, Row, Input, ColorPicker, TextArea, Select, Tag } from '@douyinfe/semi-ui';
 import * as htmlToImage from 'html-to-image';
+import RankStars from './components/rank';
 
 const { Title } = Typography;
 
@@ -15,6 +16,8 @@ function App() {
     discribe: "每秒受到护甲与生命之和2%的伤害，增加2%伤害",
     discribeBGC: ColorPicker.colorStringToValue("#f4a460"),
     discribeSize: "30px",
+    rank:1,
+    rankMax:0,
 
   });
   const [tempCardData, setTempCardData] = useState(cardData);
@@ -50,9 +53,10 @@ function App() {
 
   return (
     <>
-      <Title>卡丘卡牌生成器</Title><Tag size="large" color='amber'> V0.1 </Tag><Tag size="large" color='cyan' style={{marginLeft:"8px"}}> 2025.3.29 Ver </Tag>
+      <Title style={{color:"rgba(var(--semi-grey-9), 1)"}}>卡丘卡牌生成器</Title><Tag size="large" color='amber'> V0.2 </Tag><Tag size="large" color='cyan' style={{marginLeft:"8px"}}> 2025.3.30 Ver </Tag>
+      <div style={{width:"100%",height:"15px"}}></div>
 
-      <div id="capture" style={{ width: "400px", height: "620px", backgroundColor: "grey", marginTop: "20px", position: "relative", overflow: "hidden" }}>
+      <div id="capture" style={{ width: "400px", height: "620px", backgroundColor: "grey", position: "relative", overflow: "hidden" }}>
         <div style={{ width: "100%", backgroundColor: "#8b8b8f" }}>
           <div style={{ width: "100%", height: "3px" }}></div>
           <div style={{ width: "max-content", height: "26px", marginLeft: "auto", marginRight: "auto", backgroundColor: "white", borderRadius: "13px", border: "2px solid black", boxShadow: "0 0 40px white" }}>
@@ -83,6 +87,7 @@ function App() {
           <div style={{ width: "100%", color: "white", textShadow: "0px 0px 5px black", fontSize: cardData.discribeSize, margin: "0 auto", marginLeft: "20px", marginRight: "20px", textAlign: "center" }}>
             {cardData.discribe}</div>
         </div>
+        <RankStars rank={cardData.rank} rankMax={cardData.rankMax}/>
       </div>
 
       <div style={{ marginTop: "20px" }}>
@@ -109,7 +114,7 @@ function App() {
         <Button theme='solid' style={{ margin: "5px" }} onClick={showDialog}>修改属性</Button>
         <Button theme='solid' style={{ margin: "5px" }} onClick={() => { open("https://space.bilibili.com/403314450", "_blank") }}>作者B站</Button>
 
-        <div>本项目遵循MIT开源 <a href='https://github.com/ShrLeeKNsword/strinova-cards'>Github仓库</a></div>
+        <div style={{color:"rgba(var(--semi-grey-9), 1)"}}>本项目遵循MIT开源 <a href='https://github.com/ShrLeeKNsword/strinova-cards'>Github仓库</a></div>
 
         <Modal
           title="修改属性"
@@ -150,7 +155,7 @@ function App() {
             </Col>
           </Row>
           <Row style={{ marginTop: "8px" }}>
-            <Col span={6} style={{ marginTop: "3px" }}>字体颜色</Col>
+            <Col span={6} style={{ marginTop: "3px" }}>标题字体颜色</Col>
             <Col span={18}><ColorPicker
               value={tempCardData.titleC}
               onChange={(value) => {
@@ -191,6 +196,41 @@ function App() {
               alpha={true}
               usePopover={true}
             /></Col>
+          </Row>
+          <Row style={{ marginTop: "8px" }}>
+            <Col span={6} style={{ marginTop: "3px" }}>最大星数</Col>
+            <Col span={18}>
+              <Select style={{ width: 120 }}
+                value={tempCardData.rankMax}
+                onChange={(e: any) => {
+                  setTempCardData({ ...tempCardData, rankMax: e });
+                }}>
+                <Select.Option value={0}>禁用</Select.Option>
+                <Select.Option value={1}>1</Select.Option>
+                <Select.Option value={2}>2</Select.Option>
+                <Select.Option value={3}>3</Select.Option>
+                <Select.Option value={4}>4</Select.Option>
+                <Select.Option value={5}>5</Select.Option>
+              </Select>
+            </Col>
+          </Row>
+          <Row style={{ marginTop: "8px" }}>
+            <Col span={6} style={{ marginTop: "3px" }}>星数</Col>
+            <Col span={18}>
+              <Select style={{ width: 120 }}
+                value={tempCardData.rank}
+                disabled={tempCardData.rankMax === 0}
+                onChange={(e: any) => {
+                  setTempCardData({ ...tempCardData, rank: e });
+                }}>
+                <Select.Option value={0}>0</Select.Option>
+                <Select.Option value={1}>1</Select.Option>
+                <Select.Option value={2}>2</Select.Option>
+                <Select.Option value={3}>3</Select.Option>
+                <Select.Option value={4}>4</Select.Option>
+                <Select.Option value={5}>5</Select.Option>
+              </Select>
+            </Col>
           </Row>
           <Row style={{ marginTop: "8px" }}>
             <Col span={6} style={{ marginTop: "3px" }}>图像</Col>
