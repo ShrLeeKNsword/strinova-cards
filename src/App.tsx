@@ -70,9 +70,10 @@ function App() {
 
   return (
     <>
-      <Title style={{ color: "rgba(var(--semi-grey-9), 1)" }}>卡丘卡牌生成器</Title>
-      <Tag size="large" color='amber'> V0.3 </Tag>
-      <Tag size="large" color='cyan' style={{ marginLeft: "8px" }}> 2025.3.30 Ver </Tag>
+      <Title style={{ color: "rgba(var(--semi-grey-9), 1)" }}>卡拉彼丘 | 卡牌生成器</Title>
+      <div style={{ width: "100%", height: "5px" }}></div>
+      <Tag size="large" color='amber'> V0.4 </Tag>
+      <Tag size="large" color='cyan' style={{ marginLeft: "8px" }}> 2025.3.31 Ver </Tag>
       <div style={{ width: "100%", height: "15px" }}></div>
 
       <div id="capture" style={{ width: "400px", height: "620px", backgroundColor: "grey", position: "relative", overflow: "hidden" }}>
@@ -144,157 +145,159 @@ function App() {
           footerFill={true}
           keepDOM={true}
         >
-          <Row>
-            <Col span={6} style={{ marginTop: "3px" }}>类型</Col>
-            <Col span={18}><Input value={tempCardData.type}
-              onChange={(e) => {
-                setTempCardData({ ...tempCardData, type: e });
-              }}
-            ></Input></Col>
-          </Row>
-          <Row style={{ marginTop: "8px" }}>
-            <Col span={6} style={{ marginTop: "3px" }}>名称</Col>
-            <Col span={18}><Input value={tempCardData.title}
-              onChange={(e) => {
-                setTempCardData({ ...tempCardData, title: e });
-              }}></Input></Col>
-          </Row>
-          <Row style={{ marginTop: "8px" }}>
-            <Col span={6} style={{ marginTop: "3px" }}>名称字号</Col>
-            <Col span={18}>
-              <Select style={{ width: 120 }}
-                value={tempCardData.titleSize}
-                onChange={(e: any) => {
-                  setTempCardData({ ...tempCardData, titleSize: e });
-                }}>
-                <Select.Option value="45px">标准</Select.Option>
-                <Select.Option value="35px">中号</Select.Option>
-                <Select.Option value="30px">小号</Select.Option>
-              </Select>
-            </Col>
-          </Row>
-          <Row style={{ marginTop: "8px" }}>
-            <Col span={6} style={{ marginTop: "3px" }}>标题字体颜色</Col>
-            <Col span={18}><ColorPicker
-              value={tempCardData.titleC}
-              onChange={(value) => {
-                setTempCardData({ ...tempCardData, titleC: value });
-              }}
-              alpha={true}
-              usePopover={true}
-            /></Col>
-          </Row>
-          <Row style={{ marginTop: "8px" }}>
-            <Col span={6} style={{ marginTop: "3px" }}>描述</Col>
-            <Col span={18}><TextArea maxCount={75} value={tempCardData.discribe} autosize={{ minRows: 1, maxRows: 4 }}
-              onChange={(e) => {
-                setTempCardData({ ...tempCardData, discribe: e });
-              }}></TextArea></Col>
-          </Row>
-          <Row style={{ marginTop: "8px" }}>
-            <Col span={6} style={{ marginTop: "3px" }}>描述字号</Col>
-            <Col span={18}>
-              <Select style={{ width: 120 }}
-                value={tempCardData.discribeSize}
-                onChange={(e: any) => {
-                  setTempCardData({ ...tempCardData, discribeSize: e });
-                }}>
-                <Select.Option value="30px">标准</Select.Option>
-                <Select.Option value="28px">中号</Select.Option>
-                <Select.Option value="25px">小号</Select.Option>
-              </Select>
-            </Col>
-          </Row>
-          <Row style={{ marginTop: "8px" }}>
-            <Col span={6} style={{ marginTop: "3px" }}>描述背景颜色</Col>
-            <Col span={18}><ColorPicker
-              value={tempCardData.discribeBGC}
-              onChange={(value) => {
-                setTempCardData({ ...tempCardData, discribeBGC: value });
-              }}
-              alpha={true}
-              usePopover={true}
-            /></Col>
-          </Row>
-          <Row style={{ marginTop: "8px" }}>
-            <Col span={6} style={{ marginTop: "3px" }}>最大星数</Col>
-            <Col span={18}>
-              <Select style={{ width: 120 }}
-                value={tempCardData.rankMax}
-                onChange={(e: any) => {
-                  setTempCardData({ ...tempCardData, rankMax: e });
-                }}>
-                <Select.Option value={0}>禁用</Select.Option>
-                <Select.Option value={1}>1</Select.Option>
-                <Select.Option value={2}>2</Select.Option>
-                <Select.Option value={3}>3</Select.Option>
-                <Select.Option value={4}>4</Select.Option>
-                <Select.Option value={5}>5</Select.Option>
-              </Select>
-            </Col>
-          </Row>
-          <Row style={{ marginTop: "8px" }}>
-            <Col span={6} style={{ marginTop: "3px" }}>星数</Col>
-            <Col span={18}>
-              <Select style={{ width: 120 }}
-                value={tempCardData.rank}
-                disabled={tempCardData.rankMax === 0}
-                onChange={(e: any) => {
-                  setTempCardData({ ...tempCardData, rank: e });
-                }}>
-                <Select.Option value={0}>0</Select.Option>
-                <Select.Option value={1}>1</Select.Option>
-                <Select.Option value={2}>2</Select.Option>
-                <Select.Option value={3}>3</Select.Option>
-                <Select.Option value={4}>4</Select.Option>
-                <Select.Option value={5}>5</Select.Option>
-              </Select>
-            </Col>
-          </Row>
-          <Row style={{ marginTop: "8px" }}>
-            <Col span={6} style={{ marginTop: "3px" }}>图像</Col>
-            <Col span={18}>
-              <button
-                onClick={() => {
-                  if (fileInputRef.current) {
-                    fileInputRef.current.click(); // 触发文件输入元素的点击事件
-                  }
+          <div style={{ maxHeight: "600px", overflowY: "auto" }}>
+            <Row>
+              <Col span={6} style={{ marginTop: "3px" }}>类型</Col>
+              <Col span={18}><Input value={tempCardData.type}
+                onChange={(e) => {
+                  setTempCardData({ ...tempCardData, type: e });
                 }}
-              ><img src={tempCardData.imglink} style={{ width: "180px", height: "180px" }} /></button>
-              <input
-                type="file"
-                accept="image/*"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-                style={{ display: 'none' }} // 隐藏文件输入元素
-              />
-              <div></div>
-              <PreImg onFinish={(e: any) => { setTempCardData({ ...tempCardData, imglink: e })}} />
-            </Col>
-          </Row>
-          <Row style={{ marginTop: "8px" }}>
-            <Col span={6} style={{ marginTop: "3px" }}>图像缩放</Col>
-            <Col span={18}>
-              <Slider tipFormatter={v => (`${v}%`)} value={tempCardData.imgHeight} getAriaValueText={v => (`${v}%`)}
+              ></Input></Col>
+            </Row>
+            <Row style={{ marginTop: "8px" }}>
+              <Col span={6} style={{ marginTop: "3px" }}>名称</Col>
+              <Col span={18}><Input value={tempCardData.title}
+                onChange={(e) => {
+                  setTempCardData({ ...tempCardData, title: e });
+                }}></Input></Col>
+            </Row>
+            <Row style={{ marginTop: "8px" }}>
+              <Col span={6} style={{ marginTop: "3px" }}>名称字号</Col>
+              <Col span={18}>
+                <Select style={{ width: 120 }}
+                  value={tempCardData.titleSize}
+                  onChange={(e: any) => {
+                    setTempCardData({ ...tempCardData, titleSize: e });
+                  }}>
+                  <Select.Option value="45px">标准</Select.Option>
+                  <Select.Option value="35px">中号</Select.Option>
+                  <Select.Option value="30px">小号</Select.Option>
+                </Select>
+              </Col>
+            </Row>
+            <Row style={{ marginTop: "8px" }}>
+              <Col span={6} style={{ marginTop: "3px" }}>标题字体颜色</Col>
+              <Col span={18}><ColorPicker
+                value={tempCardData.titleC}
+                onChange={(value) => {
+                  setTempCardData({ ...tempCardData, titleC: value });
+                }}
+                alpha={true}
+                usePopover={true}
+              /></Col>
+            </Row>
+            <Row style={{ marginTop: "8px" }}>
+              <Col span={6} style={{ marginTop: "3px" }}>描述</Col>
+              <Col span={18}><TextArea maxCount={75} value={tempCardData.discribe} autosize={{ minRows: 1, maxRows: 4 }}
+                onChange={(e) => {
+                  setTempCardData({ ...tempCardData, discribe: e });
+                }}></TextArea></Col>
+            </Row>
+            <Row style={{ marginTop: "8px" }}>
+              <Col span={6} style={{ marginTop: "3px" }}>描述字号</Col>
+              <Col span={18}>
+                <Select style={{ width: 120 }}
+                  value={tempCardData.discribeSize}
+                  onChange={(e: any) => {
+                    setTempCardData({ ...tempCardData, discribeSize: e });
+                  }}>
+                  <Select.Option value="30px">标准</Select.Option>
+                  <Select.Option value="28px">中号</Select.Option>
+                  <Select.Option value="25px">小号</Select.Option>
+                </Select>
+              </Col>
+            </Row>
+            <Row style={{ marginTop: "8px" }}>
+              <Col span={6} style={{ marginTop: "3px" }}>描述背景颜色</Col>
+              <Col span={18}><ColorPicker
+                value={tempCardData.discribeBGC}
+                onChange={(value) => {
+                  setTempCardData({ ...tempCardData, discribeBGC: value });
+                }}
+                alpha={true}
+                usePopover={true}
+              /></Col>
+            </Row>
+            <Row style={{ marginTop: "8px" }}>
+              <Col span={6} style={{ marginTop: "3px" }}>最大星数</Col>
+              <Col span={18}>
+                <Select style={{ width: 120 }}
+                  value={tempCardData.rankMax}
+                  onChange={(e: any) => {
+                    setTempCardData({ ...tempCardData, rankMax: e });
+                  }}>
+                  <Select.Option value={0}>禁用</Select.Option>
+                  <Select.Option value={1}>1</Select.Option>
+                  <Select.Option value={2}>2</Select.Option>
+                  <Select.Option value={3}>3</Select.Option>
+                  <Select.Option value={4}>4</Select.Option>
+                  <Select.Option value={5}>5</Select.Option>
+                </Select>
+              </Col>
+            </Row>
+            <Row style={{ marginTop: "8px" }}>
+              <Col span={6} style={{ marginTop: "3px" }}>星数</Col>
+              <Col span={18}>
+                <Select style={{ width: 120 }}
+                  value={tempCardData.rank}
+                  disabled={tempCardData.rankMax === 0}
+                  onChange={(e: any) => {
+                    setTempCardData({ ...tempCardData, rank: e });
+                  }}>
+                  <Select.Option value={0}>0</Select.Option>
+                  <Select.Option value={1}>1</Select.Option>
+                  <Select.Option value={2}>2</Select.Option>
+                  <Select.Option value={3}>3</Select.Option>
+                  <Select.Option value={4}>4</Select.Option>
+                  <Select.Option value={5}>5</Select.Option>
+                </Select>
+              </Col>
+            </Row>
+            <Row style={{ marginTop: "8px" }}>
+              <Col span={6} style={{ marginTop: "3px" }}>图像</Col>
+              <Col span={18}>
+                <button
+                  onClick={() => {
+                    if (fileInputRef.current) {
+                      fileInputRef.current.click(); // 触发文件输入元素的点击事件
+                    }
+                  }}
+                ><img src={tempCardData.imglink} style={{ width: "180px", height: "180px" }} /></button>
+                <input
+                  type="file"
+                  accept="image/*"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  style={{ display: 'none' }} // 隐藏文件输入元素
+                />
+                <div style={{height:"10px"}}></div>
+                <PreImg onFinish={(e: any) => { setTempCardData({ ...tempCardData, imglink: e }) }} />
+              </Col>
+            </Row>
+            <Row style={{ marginTop: "8px" }}>
+              <Col span={6} style={{ marginTop: "3px" }}>图像缩放</Col>
+              <Col span={18}>
+                <Slider tipFormatter={v => (`${v}%`)} value={tempCardData.imgHeight} getAriaValueText={v => (`${v}%`)}
+                  onChange={(e: any) => {
+                    setTempCardData({ ...tempCardData, imgHeight: e });
+                  }}></Slider>
+              </Col>
+            </Row>
+            <Row style={{ marginTop: "8px" }}>
+              <Col span={6} style={{ marginTop: "6px" }}>图像偏移</Col>
+              <Col span={2} style={{ marginTop: "6px" }}>X</Col>
+              <Col span={6}><InputNumber value={tempCardData.imgPosX}
                 onChange={(e: any) => {
-                  setTempCardData({ ...tempCardData, imgHeight: e });
-                }}></Slider>
-            </Col>
-          </Row>
-          <Row style={{ marginTop: "8px" }}>
-            <Col span={6} style={{ marginTop: "6px" }}>图像偏移</Col>
-            <Col span={2} style={{ marginTop: "6px" }}>X</Col>
-            <Col span={6}><InputNumber value={tempCardData.imgPosX}
-              onChange={(e: any) => {
-                setTempCardData({ ...tempCardData, imgPosX: e });
-              }}></InputNumber></Col>
-            <Col span={1} style={{ marginTop: "6px" }}></Col>
-            <Col span={2} style={{ marginTop: "6px" }}>Y</Col>
-            <Col span={6}><InputNumber value={tempCardData.imgPosY}
-              onChange={(e: any) => {
-                setTempCardData({ ...tempCardData, imgPosY: e });
-              }}></InputNumber></Col>
-          </Row>
+                  setTempCardData({ ...tempCardData, imgPosX: e });
+                }}></InputNumber></Col>
+              <Col span={1} style={{ marginTop: "6px" }}></Col>
+              <Col span={2} style={{ marginTop: "6px" }}>Y</Col>
+              <Col span={6}><InputNumber value={tempCardData.imgPosY}
+                onChange={(e: any) => {
+                  setTempCardData({ ...tempCardData, imgPosY: e });
+                }}></InputNumber></Col>
+            </Row>
+          </div>
         </Modal>
       </div>
     </>
