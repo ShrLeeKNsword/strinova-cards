@@ -172,6 +172,7 @@ function App() {
                   <Select.Option value="45px">标准</Select.Option>
                   <Select.Option value="35px">中号</Select.Option>
                   <Select.Option value="30px">小号</Select.Option>
+                  <Select.Option value="28px">最小</Select.Option>
                 </Select>
               </Col>
             </Row>
@@ -204,6 +205,9 @@ function App() {
                   <Select.Option value="30px">标准</Select.Option>
                   <Select.Option value="28px">中号</Select.Option>
                   <Select.Option value="25px">小号</Select.Option>
+                  <Select.Option value="22px">较小</Select.Option>
+                  <Select.Option value="20px">超小</Select.Option>
+                  <Select.Option value="18px">最小</Select.Option>
                 </Select>
               </Col>
             </Row>
